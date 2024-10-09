@@ -8,4 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class Encart extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'Référence',
+        'image_bannière',
+        'date_debut',
+        'date_fin',
+        'tags',
+    ];
 }
