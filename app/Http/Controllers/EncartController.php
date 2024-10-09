@@ -31,7 +31,7 @@ class EncartController extends Controller
     {
         $validatedData = $request->validate([
             'Référence' => 'required|string|max:255',
-            'image_bannière' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image_bannière' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048|dimensions:width=1000,height=250',
             'date_debut' => 'required|date',
             'date_fin' => [
                 'required',
@@ -47,7 +47,13 @@ class EncartController extends Controller
             ],
             'tags' => 'required|array',
             'tags.*' => 'exists:tags,id',
-        ]);
+        ], [
+            'Référence.required' => 'Le champ Référence est obligatoire.',
+            'image_bannière.required' => 'L\'image est obligatoire.',
+            'image_bannière.dimensions' => 'Les dimensions de l\'image doivent être de 1000x250 pixels.',
+            'tags.required' => 'Veuillez sélectionner au moins un tag.',
+            'tags.*.exists' => 'Le tag sélectionné est invalide.',
+        ]);     
 
         $imagePath = $request->file('image_bannière')->store('images', 'public');
 
@@ -92,7 +98,7 @@ class EncartController extends Controller
     {
         $request->validate([
             'Référence' => 'required|string|max:255',
-            'image_bannière' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image_bannière' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048|dimensions:width=1000,height=250',
             'date_debut' => 'required|date',
             'date_fin' => [
                 'required',
@@ -108,7 +114,13 @@ class EncartController extends Controller
             ],
             'tags' => 'required|array',
             'tags.*' => 'exists:tags,id',
-        ]);
+        ], [
+            'Référence.required' => 'Le champ Référence est obligatoire.',
+            'image_bannière.required' => 'L\'image est obligatoire.',
+            'image_bannière.dimensions' => 'Les dimensions de l\'image doivent être de 1000x250 pixels.',
+            'tags.required' => 'Veuillez sélectionner au moins un tag.',
+            'tags.*.exists' => 'Le tag sélectionné est invalide.',
+        ]); 
 
         $encart = Encart::findOrFail($id);
         $encart->Référence = $request->input('Référence');

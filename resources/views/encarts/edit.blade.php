@@ -49,5 +49,14 @@
 
         <button type="submit" class="btn btn-primary">Mettre à jour l'encart</button>
     </form>
+    @if ($errors->any())
+    <div>
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
 </div>
 @endsection
