@@ -14,6 +14,10 @@ class Encart extends Model
         'image_bannière',
         'date_debut',
         'date_fin',
-        'tags',
     ];
+
+    public function tags()
+    {
+        return $this->belongsToMany(Tag::class, 'encart_tag'); 
+    }
 }

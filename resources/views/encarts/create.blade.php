@@ -29,9 +29,23 @@
         </div>
 
         <div class="form-group">
-            <label for="tags">Tags (facultatif)</label>
-            <input type="text" name="tags" class="form-control" placeholder="artisan, commerce, etc">
+            <label>Tags</label><br>
+            @foreach($tags as $tag)
+                <div class="form-check">
+                    <input 
+                        type="checkbox" 
+                        class="form-check-input" 
+                        name="tags[]" 
+                        id="tag_{{ $tag->id }}" 
+                        value="{{ $tag->id }}"
+                    >
+                    <label class="form-check-label" for="tag_{{ $tag->id }}">
+                        {{ $tag->name }}
+                    </label>
+                </div>
+            @endforeach
         </div>
+
 
         <button type="submit" class="btn btn-primary">Créer l'encart</button>
     </form>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Encart;
+use App\Models\Tag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -19,7 +20,8 @@ class EncartController extends Controller
     // 2. Afficher le formulaire de création d'un encart
     public function create()
     {
-        return view('encarts.create'); 
+        $tags = Tag::all();
+        return view('encarts.create', compact('tags'));
     }
 
     // 3. Stocker un nouvel encart
@@ -41,21 +43,22 @@ class EncartController extends Controller
                     }
                 },
             ],
-            'tags' => 'nullable|string',
+            'tags' => 'required|array',
+            'tags.*' => 'exists:tags,id',
         ]);
 
-        if ($request->hasFile('image_bannière')) {
-            $imagePath = $request->file('image_bannière')->store('images', 'public'); 
-        }
+        $imagePath = $request->file('image_bannière')->store('images', 'public');
 
         // Création de l'encart
-        Encart::create([
+        $encart = Encart::create([
             'Référence' => $validatedData['Référence'],
             'image_bannière' => $imagePath,
             'date_debut' => $validatedData['date_debut'],
             'date_fin' => $validatedData['date_fin'],
-            'tags' => $validatedData['tags'],
         ]);
+
+        // Synchronisation des tags
+        $encart->tags()->sync($validatedData['tags']);
 
         return redirect()->route('encarts.index')->with('success', 'Encart créé avec succès !');
     }
@@ -78,7 +81,8 @@ class EncartController extends Controller
     public function edit($id)
     {
         $encart = Encart::findOrFail($id);
-        return view('encarts.edit', compact('encart'));
+        $tags = Tag::all();
+        return view('encarts.edit', compact('encart', 'tags'));
     }
 
     // 6. Mettre à jour un encart existant
@@ -100,14 +104,14 @@ class EncartController extends Controller
                     }
                 },
             ],
-            'tags' => 'required|string',
+            'tags' => 'required|array',
+            'tags.*' => 'exists:tags,id',
         ]);
 
         $encart = Encart::findOrFail($id);
         $encart->Référence = $request->input('Référence');
         $encart->date_debut = $request->input('date_debut');
         $encart->date_fin = $request->input('date_fin');
-        $encart->tags = $request->input('tags');
 
         if ($request->hasFile('image_bannière')) {
             if ($encart->image_bannière) {
@@ -117,6 +121,9 @@ class EncartController extends Controller
         }
 
         $encart->save();
+
+        // Synchronisation des tags
+        $encart->tags()->sync($request->input('tags'));
 
         return redirect()->route('encarts.index')->with('success', 'Encart mis à jour avec succès.');
     }

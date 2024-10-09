@@ -49,10 +49,10 @@
     @endif
 
     @if($encarts->count())
-    <h2>affichage des encarts :</h2>
+    <h2>Visuel des encarts :</h2>
     <br>
         @foreach($encartsVisuels as $encart)
-        <div class="col-md-9">
+        <div class="col-md-9 mb-9">
             <div class="card" style="width: 100%; height: 200px; overflow: hidden;">
                 <img src="{{ asset('storage/' . $encart->image_bannière) }}" alt="Bannière">
             </div>
