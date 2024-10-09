@@ -13,7 +13,9 @@ class EncartController extends Controller
     public function index()
     {
         $encarts = Encart::all();
-        return view('encarts.index', compact('encarts'));
+
+        $encartsVisuels = Encart::where('date_fin', '>=', now())->get();
+        return view('encarts.index', compact('encarts', 'encartsVisuels'));
     }
 
     // 2. Afficher le formulaire de création d'un encart

@@ -4,7 +4,7 @@
 
 @section('content')
 <div class="container">
-    <h2>Liste des encarts publicitaires</h2>
+    <h2>Liste des encarts publicitaires :</h2>
 
     <a href="{{ route('encarts.create') }}" class="btn btn-primary mb-3">Créer un nouvel encart</a>
 
@@ -46,11 +46,17 @@
     @else
         <p>Aucun encart disponible pour le moment.</p>
     @endif
-    @foreach($encarts as $encart)
+
+    @if($encarts->count())
+    <h2>Visuel des encarts :</h2>
+    <br>
+    @foreach($encartsVisuels as $encart)
     <div>
         <img src="{{ asset('storage/' . $encart->image_bannière) }}" alt="Bannière">
-        <h2>{{ $encart->Référence }}</h2>
     </div>
     @endforeach
+     @else
+        <p>Aucun encart disponible pour le moment.</p>
+    @endif
 </div>
 @endsection
