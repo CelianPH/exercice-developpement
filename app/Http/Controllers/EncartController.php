@@ -13,7 +13,9 @@ class EncartController extends Controller
     public function index()
     {
         $encarts = Encart::all();
-        $encartsVisuels = Encart::where('date_fin', '>=', now())->get();
+        $encartsVisuels = Encart::where('date_fin', '>=', now())
+                                ->where('date_debut', '<=', now())
+                                ->get();
         return view('encarts.index', compact('encarts', 'encartsVisuels'));
     }
 
