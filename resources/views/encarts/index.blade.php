@@ -49,7 +49,7 @@
     @endif
 
     @if($encarts->count())
-    <h2>Visuel des encarts :</h2>
+    <h2>affichage des encarts :</h2>
     <br>
         @foreach($encartsVisuels as $encart)
         <div class="col-md-9">
