@@ -66,4 +66,40 @@ class EncartController extends Controller
 
         return redirect()->route('encarts.index')->with('success', 'Encart supprimé avec succès.');
     }
+
+    // 5. afficher le formulaire modifier
+
+    public function edit($id)
+{
+    $encart = Encart::findOrFail($id);
+    return view('encarts.edit', compact('encart'));
+}
+
+// 6. mettre à jour les données
+
+public function update(Request $request, $id)
+{
+    $request->validate([
+        'Référence' => 'required|string|max:255',
+        'image_bannière' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        'date_debut' => 'required|date',
+        'date_fin' => 'required|date|after_or_equal:date_debut',
+        'tags' => 'required|string',
+    ]);
+
+    $encart = Encart::findOrFail($id);
+    $encart->Référence = $request->input('Référence');
+    $encart->date_debut = $request->input('date_debut');
+    $encart->date_fin = $request->input('date_fin');
+    $encart->tags = $request->input('tags');
+
+    // Gestion de l'image
+    if ($request->hasFile('image_bannière')) {
+        $path = $request->file('image_bannière')->store('images', 'public');
+        $encart->image_bannière = $path;
+    }
+
+    $encart->save();
+    return redirect()->route('encarts.index')->with('success', 'Encart mis à jour avec succès.');
+    }
 }

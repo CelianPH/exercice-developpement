@@ -33,6 +33,7 @@
                         <td>{{ $encart->date_fin }}</td>
                         <td>{{ $encart->tags }}</td>
                         <td>
+                            <a href="{{ route('encarts.edit', $encart->id) }}" class="btn btn-warning">Modifier</a>
                             <form action="{{ route('encarts.destroy', $encart->id) }}" method="POST">
                                 @csrf
                                 @method('DELETE')
@@ -50,10 +51,12 @@
     @if($encarts->count())
     <h2>Visuel des encarts :</h2>
     <br>
-    @foreach($encartsVisuels as $encart)
-    <div>
-        <img src="{{ asset('storage/' . $encart->image_bannière) }}" alt="Bannière">
-    </div>
+        @foreach($encartsVisuels as $encart)
+        <div class="col-md-9">
+            <div class="card" style="width: 100%; height: 200px; overflow: hidden;">
+                <img src="{{ asset('storage/' . $encart->image_bannière) }}" alt="Bannière">
+            </div>
+        </div >
     @endforeach
      @else
         <p>Aucun encart disponible pour le moment.</p>

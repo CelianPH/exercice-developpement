@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EncartController;
 
+Route::resource('encarts', EncartController::class);
+
 Route::get('/', [EncartController::class, 'index'])->name('encarts.index');
 Route::get('/create', [EncartController::class, 'create'])->name('encarts.create');
 Route::post('/store', [EncartController::class, 'store'])->name('encarts.store');
