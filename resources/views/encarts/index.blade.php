@@ -31,7 +31,13 @@
                         </td>
                         <td>{{ $encart->date_debut }}</td>
                         <td>{{ $encart->date_fin }}</td>
-                        <td>{{ $encart->tags }}</td>
+                        <td>
+                            @if($encart->tags)
+                                {{ $encart->tags }}
+                            @else
+                                Aucun tag
+                            @endif
+                        </td>
                         <td>
                             <a href="{{ route('encarts.edit', $encart->id) }}" class="btn btn-warning">Modifier</a>
                             <form action="{{ route('encarts.destroy', $encart->id) }}" method="POST">

@@ -13,6 +13,6 @@ class Tag extends Model
 
     public function encarts()
     {
-        return $this->belongsToMany(Encart::class, 'encart_tag');
+        return $this->belongsToMany(Encart::class);
     }
 }

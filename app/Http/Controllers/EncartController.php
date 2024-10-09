@@ -6,13 +6,20 @@ use App\Models\Encart;
 use App\Models\Tag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
+
 
 class EncartController extends Controller
 {
     // 1. Afficher la liste des encarts
     public function index()
     {
-        $encarts = Encart::all();
+        $encarts = Encart::select('encarts.id', 'encarts.Référence', 'encarts.image_bannière', 'encarts.date_debut', 'encarts.date_fin')
+        ->leftJoin('encart_tag', 'encarts.id', '=', 'encart_tag.encart_id')
+        ->leftJoin('tags', 'encart_tag.tag_id', '=', 'tags.id')
+        ->groupBy('encarts.id', 'encarts.Référence', 'encarts.image_bannière', 'encarts.date_debut', 'encarts.date_fin')
+        ->addSelect(DB::raw('GROUP_CONCAT(tags.name SEPARATOR ", ") AS tags'))
+        ->get();
         $encartsVisuels = Encart::where('date_fin', '>=', now())
                                 ->where('date_debut', '<=', now())
                                 ->get();

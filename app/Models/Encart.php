@@ -18,6 +18,6 @@ class Encart extends Model
 
     public function tags()
     {
-        return $this->belongsToMany(Tag::class, 'encart_tag'); 
+        return $this->belongsToMany(Tag::class); 
     }
 }
