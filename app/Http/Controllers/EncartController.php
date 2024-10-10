@@ -59,7 +59,6 @@ class EncartController extends Controller
             'image_bannière.required' => 'L\'image est obligatoire.',
             'image_bannière.dimensions' => 'Les dimensions de l\'image doivent être de 1000x250 pixels.',
             'tags.required' => 'Veuillez sélectionner au moins un tag.',
-            'tags.*.exists' => 'Le tag sélectionné est invalide.',
         ]);     
 
         $imagePath = $request->file('image_bannière')->store('images', 'public');
@@ -126,7 +125,6 @@ class EncartController extends Controller
             'image_bannière.required' => 'L\'image est obligatoire.',
             'image_bannière.dimensions' => 'Les dimensions de l\'image doivent être de 1000x250 pixels.',
             'tags.required' => 'Veuillez sélectionner au moins un tag.',
-            'tags.*.exists' => 'Le tag sélectionné est invalide.',
         ]); 
 
         $encart = Encart::findOrFail($id);
